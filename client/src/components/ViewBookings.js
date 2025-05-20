@@ -255,7 +255,7 @@ const ViewBookings = () => {
       // Convert selectedDate (dd-MM-yyyy) to yyyy-MM-dd for API
       const [day, month, year] = selectedDate.split('-');
       const apiDate = `${year}-${month}-${day}`;
-      const response = await axios.get(`http://localhost:3001/api/bookings?date=${apiDate}`);
+      const response = await axios.get(`${process.env.REACT_APP_API_BASE_URL || 'http://localhost:3001/api'}/bookings?date=${apiDate}`);
       setBookings(response.data);
       
       // Calculate daily counts
@@ -512,7 +512,7 @@ const ViewBookings = () => {
 
   const handleDeleteConfirm = async () => {
     try {
-      await axios.delete(`http://localhost:3001/api/bookings/${bookingToDelete._id}`);
+      await axios.delete(`${process.env.REACT_APP_API_BASE_URL || 'http://localhost:3001/api'}/bookings/${bookingToDelete._id}`);
       setDeleteDialogOpen(false);
       setBookingToDelete(null);
       fetchBookings(); // Refresh the bookings list

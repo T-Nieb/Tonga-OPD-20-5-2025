@@ -8,11 +8,14 @@ app.use(cors());
 app.use(express.json());
 
 // Set MONGODB_URI in your Render dashboard or in a .env file for local development
-const mongoURI = process.env.MONGODB_URI || 'mongodb://localhost:27017/opd-booking';
-mongoose.connect(mongoURI, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-});
+if (!process.env.MONGODB_URI) {
+  throw new Error('MONGODB_URI environment variable must be set.');
+}
+const mongoURI = process.env.MONGODB_URI;
+// Log the MongoDB connection string (mask password for security)
+const maskedUri = mongoURI.replace(/(mongodb(?:\+srv)?:\/\/[^:]+:)[^@]+(@)/, '$1****$2');
+console.log('Connecting to MongoDB:', maskedUri);
+mongoose.connect(mongoURI);
 
 // Booking Schema
 const bookingSchema = new mongoose.Schema({

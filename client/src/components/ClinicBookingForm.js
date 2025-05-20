@@ -42,7 +42,7 @@ const ClinicBookingForm = () => {
     const fetchNextAvailable = async () => {
       setDateLoading(true);
       try {
-        const response = await axios.get('http://localhost:3001/api/bookings/next-available');
+        const response = await axios.get(`${process.env.REACT_APP_API_BASE_URL || 'http://localhost:3001/api'}/bookings/next-available`);
         let next = response.data && response.data.new ? response.data.new : '';
         // Ensure next available date is not today, not weekend, not public holiday, not Tue/Thu, not fully booked
         if (next) {
@@ -74,7 +74,7 @@ const ClinicBookingForm = () => {
     // Fetch booking counts for the next year for 'new' type
     const fetchCounts = async () => {
       try {
-        const response = await axios.get('http://localhost:3001/api/bookings/date-counts?type=new');
+        const response = await axios.get(`${process.env.REACT_APP_API_BASE_URL || 'http://localhost:3001/api'}/bookings/date-counts?type=new`);
         setDateCounts(response.data);
       } catch (err) {
         setDateCounts({});
@@ -176,7 +176,7 @@ const ClinicBookingForm = () => {
     setError('');
     setSuccess('');
     try {
-      await axios.post('http://localhost:3001/api/bookings', {
+      await axios.post(`${process.env.REACT_APP_API_BASE_URL || 'http://localhost:3001/api'}/bookings`, {
         firstName: formData.firstName,
         lastName: formData.lastName,
         dateOfBirth: formData.dateOfBirth ? new Date(formData.dateOfBirth.split('-').reverse().join('-')).toISOString() : '',

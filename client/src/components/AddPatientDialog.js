@@ -63,7 +63,7 @@ const AddPatientDialog = ({ open, onClose, appointmentType, selectedDate }) => {
       };
       delete apiData.appointmentDate;
 
-      await axios.post('http://localhost:3001/api/bookings', apiData);
+      await axios.post(`${process.env.REACT_APP_API_BASE_URL || 'http://localhost:3001/api'}/bookings`, apiData);
       onClose(true); // Pass true to indicate success
     } catch (err) {
       setError(err.response?.data?.error || 'Failed to add patient');

@@ -181,7 +181,7 @@ const BookingForm = () => {
       return;
     }
     try {
-      const response = await axios.post('http://localhost:3001/api/bookings', {
+      const response = await axios.post(`${process.env.REACT_APP_API_BASE_URL || 'http://localhost:3001/api'}/bookings`, {
         firstName: formData.firstName,
         lastName: formData.lastName,
         dateOfBirth: formData.dateOfBirth ? new Date(formData.dateOfBirth.split('-').reverse().join('-')).toISOString() : '',
@@ -221,7 +221,7 @@ const BookingForm = () => {
     setSearchLoading(true);
     try {
       const encodedFolderNumber = encodeURIComponent(formData.searchFolderNumber);
-      const response = await axios.get(`http://localhost:3001/api/patients/by-folder/${encodedFolderNumber}`);
+      const response = await axios.get(`${process.env.REACT_APP_API_BASE_URL || 'http://localhost:3001/api'}/patients/by-folder/${encodedFolderNumber}`);
       const patient = response.data;
       setFormData(prev => ({
         ...prev,
@@ -253,7 +253,7 @@ const BookingForm = () => {
       setNextLoading(true);
       setNextError('');
       try {
-        const response = await axios.get('http://localhost:3001/api/bookings/next-available');
+        const response = await axios.get(`${process.env.REACT_APP_API_BASE_URL || 'http://localhost:3001/api'}/bookings/next-available`);
         const result = { ...response.data };
         const today = new Date();
         today.setHours(0,0,0,0);
@@ -288,7 +288,7 @@ const BookingForm = () => {
     setDateCountsLoading(true);
     const fetchCounts = async () => {
       try {
-        const response = await axios.get(`http://localhost:3001/api/bookings/date-counts?type=${formData.appointmentType}`);
+        const response = await axios.get(`${process.env.REACT_APP_API_BASE_URL || 'http://localhost:3001/api'}/bookings/date-counts?type=${formData.appointmentType}`);
         setDateCounts(response.data);
       } catch (err) {
         setDateCounts({});

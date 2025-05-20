@@ -1,14 +1,15 @@
 const express = require('express');
+require('dotenv').config();
 const mongoose = require('mongoose');
 const cors = require('cors');
-require('dotenv').config();
 
 const app = express();
 app.use(cors());
 app.use(express.json());
 
-// Connect to MongoDB
-mongoose.connect('mongodb://localhost:27017/opd-booking', {
+// Set MONGODB_URI in your Render dashboard or in a .env file for local development
+const mongoURI = process.env.MONGODB_URI || 'mongodb://localhost:27017/opd-booking';
+mongoose.connect(mongoURI, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 });
